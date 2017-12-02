@@ -3,6 +3,8 @@ package com.tendercare.rest;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +28,10 @@ import com.tendercare.service.UserService;
  *
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserRestController {
 
+	private final Logger LOG = LoggerFactory.getLogger(UserRestController.class);
 	private UserService userService;
 
 	/**
@@ -46,6 +49,7 @@ public class UserRestController {
 	 */
 	@PostMapping
 	public ResponseEntity<?> createUser(@RequestBody User user) {
+		LOG.debug("REST request to create a new user");
 		User outputUser = userService.createUser(user);
 		return new ResponseEntity<UserResource>(new UserResource(outputUser), (HttpStatus.CREATED));
 
@@ -58,6 +62,7 @@ public class UserRestController {
 	@CrossOrigin(origins = "*")
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<?> readUsers() {
+		LOG.debug("REST request to list all users");
 		Iterable<UserResource> userResourceList = StreamSupport.stream(userService.readUsers().spliterator(), false)
 				.map(UserResource::new).collect(Collectors.toList());
 		return new ResponseEntity<>(new Resources<>(userResourceList), (HttpStatus.OK));
@@ -71,6 +76,7 @@ public class UserRestController {
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/{userId}")
 	public ResponseEntity<?> readUser(@PathVariable Long userId) {
+		LOG.debug("REST request to read user with id {}" + userId);
 		User user = userService.readUser(userId);
 		return new ResponseEntity<UserResource>(new UserResource(user), (HttpStatus.OK));
 	}
@@ -83,6 +89,7 @@ public class UserRestController {
 	@CrossOrigin(origins = "*")
 	@DeleteMapping(value = "/{userId}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
+		LOG.debug("REST request to delete user with id {}" + userId);
 		userService.deleteUser(userId);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
@@ -96,6 +103,7 @@ public class UserRestController {
 	@CrossOrigin(origins = "*")
 	@PutMapping(value = "/{userId}")
 	public ResponseEntity<?> UpdateUser(@PathVariable User user, @PathVariable Long userId) {
+		LOG.debug("REST request to update user with id {}" + userId);
 		userService.updateUser(user, userId);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}

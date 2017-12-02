@@ -3,6 +3,8 @@ package com.tendercare.rest;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +30,11 @@ import com.tendercare.service.CareServiceService;
  *
  */
 @RestController
-@RequestMapping("/careservices")
+@RequestMapping("/api/careservices")
 public class CareServiceRestController {
+	
+	private final Logger LOG = LoggerFactory.getLogger(CareServiceRestController.class);
 	private CareServiceService careServiceService;
-
 	/**
 	 * Constructs the CareServiceRestController by initializing the
 	 * CareServiceService that will be used by each Rest Service in it.
@@ -51,6 +54,7 @@ public class CareServiceRestController {
 	 */
 	@PostMapping
 	public ResponseEntity<?> createCareService(@RequestBody Careservice careService) {
+		LOG.debug("REST request to create a new careService");
 		Careservice outputCareService = careServiceService.createCareService(careService);
 		return new ResponseEntity<CareServiceResource>(new CareServiceResource(outputCareService),
 				(HttpStatus.CREATED));
@@ -64,6 +68,7 @@ public class CareServiceRestController {
 	@CrossOrigin(origins = "*")
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<?> readCareServices() {
+		LOG.debug("REST request to list all careServices");
 		Iterable<CareServiceResource> careServiceResourceList = StreamSupport
 				.stream(careServiceService.readCareServices().spliterator(), false).map(CareServiceResource::new)
 				.collect(Collectors.toList());
@@ -81,6 +86,7 @@ public class CareServiceRestController {
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/{careServiceId}")
 	public ResponseEntity<?> readCareService(@PathVariable Long careServiceId) {
+		LOG.debug("REST request to read careService with id {}" + careServiceId);
 		Careservice careService = careServiceService.readCareService(careServiceId);
 		return new ResponseEntity<CareServiceResource>(new CareServiceResource(careService), (HttpStatus.OK));
 
@@ -96,6 +102,7 @@ public class CareServiceRestController {
 	@CrossOrigin(origins = "*")
 	@DeleteMapping(value = "/{careServiceId}")
 	public ResponseEntity<?> deleteCareService(@PathVariable Long careServiceId) {
+		LOG.debug("REST request to delete careService with id {}" + careServiceId);
 		careServiceService.deleteCareService(careServiceId);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
@@ -114,6 +121,7 @@ public class CareServiceRestController {
 	@PutMapping(value = "/{careServiceId}")
 	public ResponseEntity<?> UpdateCareService(@PathVariable Careservice careService,
 			@PathVariable Long careServiceId) {
+		LOG.debug("REST request to update careService with id {}" + careServiceId);
 		careServiceService.updateCareService(careService, careServiceId);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}

@@ -3,6 +3,8 @@ package com.tendercare.rest;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +28,10 @@ import com.tendercare.service.JobService;
  *
  */
 @RestController
-@RequestMapping("/jobs")
+@RequestMapping("/api/jobs")
 public class JobRestController {
 
+	private final Logger LOG = LoggerFactory.getLogger(JobRestController.class);
 	private JobService jobService;
 
 	/**
@@ -46,6 +49,7 @@ public class JobRestController {
 	 */
 	@PostMapping
 	public ResponseEntity<?> createJob(@RequestBody Job job) {
+		LOG.debug("REST request to create a new job");
 		Job outputJob = jobService.createJob(job);
 		return new ResponseEntity<JobResource>(new JobResource(outputJob), (HttpStatus.CREATED));
 
@@ -58,6 +62,7 @@ public class JobRestController {
 	@CrossOrigin(origins = "*")
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<?> readJobs() {
+		LOG.debug("REST request to list all jobs");
 		Iterable<JobResource> jobResourceList = StreamSupport.stream(jobService.readJobs().spliterator(), false)
 				.map(JobResource::new).collect(Collectors.toList());
 		return new ResponseEntity<>(new Resources<>(jobResourceList), (HttpStatus.OK));
@@ -71,6 +76,7 @@ public class JobRestController {
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/{jobId}")
 	public ResponseEntity<?> readJob(@PathVariable Long jobId) {
+		LOG.debug("REST request to read job with id {}" + jobId);
 		Job job = jobService.readJob(jobId);
 		return new ResponseEntity<JobResource>(new JobResource(job), (HttpStatus.OK));
 	}
@@ -83,6 +89,7 @@ public class JobRestController {
 	@CrossOrigin(origins = "*")
 	@DeleteMapping(value = "/{jobId}")
 	public ResponseEntity<?> deleteJob(@PathVariable Long jobId) {
+		LOG.debug("REST request to delete job with id {}" + jobId);
 		jobService.deleteJob(jobId);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
@@ -96,6 +103,7 @@ public class JobRestController {
 	@CrossOrigin(origins = "*")
 	@PutMapping(value = "/{jobId}")
 	public ResponseEntity<?> UpdateJob(@PathVariable Job job, @PathVariable Long jobId) {
+		LOG.debug("REST request to update job with id {}" + jobId);
 		jobService.updateJob(job, jobId);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
