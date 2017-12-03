@@ -1,4 +1,4 @@
-package com.tenderCare.rest;
+package com.tendercare.rest;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;

@@ -1,4 +1,4 @@
-package com.tenderCare;
+package com.tendercare;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

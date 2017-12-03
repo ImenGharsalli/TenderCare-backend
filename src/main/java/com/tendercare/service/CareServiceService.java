@@ -25,7 +25,7 @@ public class CareServiceService {
 
 	/**
 	 * 
-	 * @return
+	 * @return all careServices
 	 */
 	public Iterable<Careservice> readCareServices() {
 		return careServiceRepository.findAll();
@@ -34,7 +34,7 @@ public class CareServiceService {
 	/**
 	 * 
 	 * @param careService
-	 * @return
+	 * @return the created careService
 	 */
 	public Careservice createCareService(Careservice careService) {
 		return careServiceRepository.save(careService);
@@ -43,7 +43,7 @@ public class CareServiceService {
 	/**
 	 * 
 	 * @param careServiceId
-	 * @return
+	 * @return careservice
 	 */
 	public Careservice readCareService(Long careServiceId) {
 		return careServiceRepository.findOne(careServiceId);

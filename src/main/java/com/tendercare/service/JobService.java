@@ -82,6 +82,6 @@ public class JobService {
 	 * @return
 	 */
 	public Iterable<Job> getPostedTodayJobs() {
-		return jobRepository.findByPostdate(midnightToday);
+		return jobRepository.findByPostdate(midnightyesterday);
 	}
 }
