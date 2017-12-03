@@ -22,6 +22,11 @@ import com.tendercare.model.Careservice;
 import com.tendercare.rest.resource.CareServiceResource;
 import com.tendercare.service.CareServiceService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 /**
  * The RestController that handles CareService related HTTP Requests, including
  * GET, POST, PUT and DELETE
@@ -31,10 +36,12 @@ import com.tendercare.service.CareServiceService;
  */
 @RestController
 @RequestMapping("/api/careservices")
+@Api("/api/careservices")
 public class CareServiceRestController {
-	
+
 	private final Logger LOG = LoggerFactory.getLogger(CareServiceRestController.class);
 	private CareServiceService careServiceService;
+
 	/**
 	 * Constructs the CareServiceRestController by initializing the
 	 * CareServiceService that will be used by each Rest Service in it.
@@ -53,6 +60,9 @@ public class CareServiceRestController {
 	 *         CareService as well as the corresponding HttpStatus
 	 */
 	@PostMapping
+	@ApiOperation(value = "Create a new careService", notes = "Saving a new careService", response = ResponseEntity.class)
+	@ApiResponses({ @ApiResponse(code = 201, message = "Created", response = ResponseEntity.class),
+			@ApiResponse(code = 400, message = "Bad request", response = ResponseEntity.class) })
 	public ResponseEntity<?> createCareService(@RequestBody Careservice careService) {
 		LOG.debug("REST request to create a new careService");
 		Careservice outputCareService = careServiceService.createCareService(careService);
@@ -67,6 +77,8 @@ public class CareServiceRestController {
 	 */
 	@CrossOrigin(origins = "*")
 	@GetMapping(produces = "application/json")
+	@ApiOperation(value = "Find all careServices", notes = "Returning the list of all careServices", response = ResponseEntity.class)
+	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class) })
 	public ResponseEntity<?> readCareServices() {
 		LOG.debug("REST request to list all careServices");
 		Iterable<CareServiceResource> careServiceResourceList = StreamSupport
@@ -85,6 +97,9 @@ public class CareServiceRestController {
 	 */
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/{careServiceId}")
+	@ApiOperation(value = "Find one careService", notes = "Returning the careService corresponding to the given id", response = ResponseEntity.class)
+	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+			@ApiResponse(code = 404, message = "NotFound") })
 	public ResponseEntity<?> readCareService(@PathVariable Long careServiceId) {
 		LOG.debug("REST request to read careService with id {}" + careServiceId);
 		Careservice careService = careServiceService.readCareService(careServiceId);
@@ -101,6 +116,9 @@ public class CareServiceRestController {
 	 */
 	@CrossOrigin(origins = "*")
 	@DeleteMapping(value = "/{careServiceId}")
+	@ApiOperation(value = "Delete a careService", notes = "Deleting an existing careService")
+	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+			@ApiResponse(code = 404, message = "NotFound") })
 	public ResponseEntity<?> deleteCareService(@PathVariable Long careServiceId) {
 		LOG.debug("REST request to delete careService with id {}" + careServiceId);
 		careServiceService.deleteCareService(careServiceId);
@@ -108,8 +126,7 @@ public class CareServiceRestController {
 	}
 
 	/**
-	 * Given a careServiceId, updates the corresponding care service by
-	 * relPacing it with the given CareService instance
+	 * Given a careServiceId, updates the corresponding care service
 	 * 
 	 * @param careService
 	 *            the new careService to use for the update
@@ -119,6 +136,9 @@ public class CareServiceRestController {
 	 */
 	@CrossOrigin(origins = "*")
 	@PutMapping(value = "/{careServiceId}")
+	@ApiOperation(value = "Update a careService", notes = "Updating an existing careService")
+	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+			@ApiResponse(code = 404, message = "NotFound") })
 	public ResponseEntity<?> UpdateCareService(@PathVariable Careservice careService,
 			@PathVariable Long careServiceId) {
 		LOG.debug("REST request to update careService with id {}" + careServiceId);

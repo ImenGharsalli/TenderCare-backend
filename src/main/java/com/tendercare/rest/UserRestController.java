@@ -22,19 +22,29 @@ import com.tendercare.model.User;
 import com.tendercare.rest.resource.UserResource;
 import com.tendercare.service.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 /**
+ * The RestController that handles User related HTTP Requests, including GET,
+ * POST, PUT and DELETE
  * 
  * @author Imen Gharsalli
  *
  */
 @RestController
 @RequestMapping("/api/users")
+@Api("/api/users")
 public class UserRestController {
 
 	private final Logger LOG = LoggerFactory.getLogger(UserRestController.class);
 	private UserService userService;
 
 	/**
+	 * Constructs the UserRestController by initializing the UserService that
+	 * will be used by each Rest Service in it.
 	 * 
 	 * @param userService
 	 */
@@ -45,9 +55,14 @@ public class UserRestController {
 	/**
 	 * 
 	 * @param user
-	 * @return
+	 *            The user to save
+	 * @return a ResponseEntity which includes a Resource of the saved User as
+	 *         well as the corresponding HttpStatus
 	 */
 	@PostMapping
+	@ApiOperation(value = "Create a new User", notes = "Saving a new User", response = ResponseEntity.class)
+	@ApiResponses({ @ApiResponse(code = 201, message = "Created", response = ResponseEntity.class),
+			@ApiResponse(code = 400, message = "Bad request", response = ResponseEntity.class) })
 	public ResponseEntity<?> createUser(@RequestBody User user) {
 		LOG.debug("REST request to create a new user");
 		User outputUser = userService.createUser(user);
@@ -56,11 +71,14 @@ public class UserRestController {
 	}
 
 	/**
+	 * Returns the list of Users that has been saved
 	 * 
-	 * @return
+	 * @return all saved instances of User
 	 */
 	@CrossOrigin(origins = "*")
 	@GetMapping(produces = "application/json")
+	@ApiOperation(value = "Find all Users", notes = "Returning the list of all Users", response = ResponseEntity.class)
+	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class) })
 	public ResponseEntity<?> readUsers() {
 		LOG.debug("REST request to list all users");
 		Iterable<UserResource> userResourceList = StreamSupport.stream(userService.readUsers().spliterator(), false)
@@ -69,12 +87,17 @@ public class UserRestController {
 	}
 
 	/**
+	 * Reads the User corresponding to the userId given as parameter
 	 * 
 	 * @param userId
-	 * @return
+	 * @return the ResponseEntity that includes the returned User as well as the
+	 *         HttpStatus
 	 */
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/{userId}")
+	@ApiOperation(value = "Find one User", notes = "Returning the User corresponding to the given id", response = ResponseEntity.class)
+	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+			@ApiResponse(code = 404, message = "NotFound") })
 	public ResponseEntity<?> readUser(@PathVariable Long userId) {
 		LOG.debug("REST request to read user with id {}" + userId);
 		User user = userService.readUser(userId);
@@ -82,12 +105,17 @@ public class UserRestController {
 	}
 
 	/**
+	 * Given a userId, deletes the corresponding user
 	 * 
 	 * @param userId
-	 * @return
+	 *            the id of the user to be deleted
+	 * @return responseEntity including HTTPStatus
 	 */
 	@CrossOrigin(origins = "*")
 	@DeleteMapping(value = "/{userId}")
+	@ApiOperation(value = "Delete a User", notes = "Deleting an existing User")
+	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+			@ApiResponse(code = 404, message = "NotFound") })
 	public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
 		LOG.debug("REST request to delete user with id {}" + userId);
 		userService.deleteUser(userId);
@@ -95,13 +123,19 @@ public class UserRestController {
 	}
 
 	/**
+	 * Given a userId, updates the corresponding user
 	 * 
 	 * @param user
+	 *            the new user to use for the update
 	 * @param userId
-	 * @return
+	 *            the id of the User to be updated
+	 * @return the ResponseEntity including the HttpStatus
 	 */
 	@CrossOrigin(origins = "*")
 	@PutMapping(value = "/{userId}")
+	@ApiOperation(value = "Update a User", notes = "Updating an existing User")
+	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+			@ApiResponse(code = 404, message = "NotFound") })
 	public ResponseEntity<?> UpdateUser(@PathVariable User user, @PathVariable Long userId) {
 		LOG.debug("REST request to update user with id {}" + userId);
 		userService.updateUser(user, userId);
