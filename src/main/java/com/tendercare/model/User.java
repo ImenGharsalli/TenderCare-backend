@@ -18,27 +18,25 @@ import javax.persistence.OneToOne;
 public class User {
 	@Id
 	@GeneratedValue
-	public Long id;
-	public String firstname;
-	public String lastname;
-	public String email;
-	public String location;
-	public String password;
-	public String description;
-	public String imageid;
-	public String accountname;
+	private Long id;
+	private String firstname;
+	private String lastname;
+	private String email;
+	private String location;
+	private String password;
+	private String description;
+	private String imageid;
+	private String accountname;
 	@OneToOne(mappedBy = "userr")
-	public Job job;
+	private Job job;
 	@OneToMany(mappedBy = "userr")
-	public Set<Careservice> careservice = new HashSet<>();;
+	private Set<Careservice> careservice = new HashSet<>();;
 
 	public User() {
-		super();
 	}
 
 	public User(String firstName, String lastName, String email, String location, String password, String description,
 			Job job) {
-		super();
 		this.firstname = firstName;
 		this.lastname = lastName;
 		this.email = email;

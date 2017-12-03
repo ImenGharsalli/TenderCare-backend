@@ -26,12 +26,10 @@ public class Careservice {
 	public User userr;
 
 	public Careservice() {
-		super();
 	}
 
 	public Careservice(String jobFucntion, String overview, String experienceLevel, String location, float availability,
 			float minPrice, float maxPrice, User userr) {
-		super();
 		this.jobfucntion = jobFucntion;
 		this.overview = overview;
 		this.experiencelevel = experienceLevel;

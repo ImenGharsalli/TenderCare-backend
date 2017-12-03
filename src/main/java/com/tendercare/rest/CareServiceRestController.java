@@ -139,8 +139,7 @@ public class CareServiceRestController {
 	@ApiOperation(value = "Update a careService", notes = "Updating an existing careService")
 	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
 			@ApiResponse(code = 404, message = "NotFound") })
-	public ResponseEntity<?> UpdateCareService(@PathVariable Careservice careService,
-			@PathVariable Long careServiceId) {
+	public ResponseEntity<?> UpdateCareService(@PathVariable Long careServiceId, @RequestBody Careservice careService) {
 		LOG.debug("REST request to update careService with id {}" + careServiceId);
 		careServiceService.updateCareService(careService, careServiceId);
 		return new ResponseEntity<Object>(HttpStatus.OK);

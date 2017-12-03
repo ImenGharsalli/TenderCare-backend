@@ -28,13 +28,11 @@ public class Job {
 	public User userr;
 
 	public Job() {
-		super();
 		this.postdate = DateUtility.dateTimeNow();
 	}
 
 	public Job(String jobFunction, String description, String location, String postDate, String expirationDate,
 			float estimatedBudget, User userr, String imageId) {
-		super();
 		this.jobfunction = jobFunction;
 		this.description = description;
 		this.location = location;

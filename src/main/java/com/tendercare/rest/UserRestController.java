@@ -136,7 +136,7 @@ public class UserRestController {
 	@ApiOperation(value = "Update a User", notes = "Updating an existing User")
 	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
 			@ApiResponse(code = 404, message = "NotFound") })
-	public ResponseEntity<?> UpdateUser(@PathVariable User user, @PathVariable Long userId) {
+	public ResponseEntity<?> UpdateUser(@PathVariable Long userId, @RequestBody User user) {
 		LOG.debug("REST request to update user with id {}" + userId);
 		userService.updateUser(user, userId);
 		return new ResponseEntity<Object>(HttpStatus.OK);

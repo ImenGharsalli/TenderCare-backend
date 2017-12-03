@@ -136,7 +136,7 @@ public class JobRestController {
 	@ApiOperation(value = "Update a Job", notes = "Updating an existing Job")
 	@ApiResponses({ @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
 			@ApiResponse(code = 404, message = "NotFound") })
-	public ResponseEntity<?> UpdateJob(@PathVariable Job job, @PathVariable Long jobId) {
+	public ResponseEntity<?> UpdateJob(@PathVariable Long jobId, @RequestBody Job job) {
 		LOG.debug("REST request to update job with id {}" + jobId);
 		jobService.updateJob(job, jobId);
 		return new ResponseEntity<Object>(HttpStatus.OK);
