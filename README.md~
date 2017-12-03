@@ -29,4 +29,4 @@ Collecting metrics provides the necessary information to handle an API efficient
 This API provides data about the number of calls of each HTTP Request along with the corresponding status as well as data about threads, processors, uptime, memory, heap...
 
 ### API documentation
-This API comes with structured description and documentation following the OpenAPi specification by taking advantage of SpringFox Swagger2 implementation.
+This API comes with structured description and documentation
