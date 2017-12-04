@@ -9,7 +9,9 @@ We will have an overview of the different features of this API including the pro
 
 * **Java 8 installation:**
 $sudo add-apt-repository ppa:webupd8team/java
+
 $sudo apt-get update
+
 $sudo apt-get install oracle-java8-installer
 
 ### Calling the services:
