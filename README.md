@@ -30,6 +30,8 @@ In order to be able to handle jobs user and careServices, the following services
 	* **Returning the list of all users**
 		http://localhost:8080/api/users
 ![alt text](https://github.com/ImenGharsalli/TenderCare-backend/blob/master/demo/get.png)
+	* **Deleting an existing user**
+![alt text](https://github.com/ImenGharsalli/TenderCare-backend/blob/master/demo/delete.png)
 
 ### HATEOAS
 This API is HATEOAS based hypermedia-driven. HATEOAS stands for Hypermedia as the Engine of Application State.The default media type served by Spring HATEOAS is HAL. HAL (Hypertext Application Language) is one of the most popular hypermedia formats to emerge. It’s lightweight, adding little more to JSON encodings than a _links attribute to contain a list of hyperlinks and their rels.
