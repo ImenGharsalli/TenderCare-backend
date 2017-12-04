@@ -17,6 +17,9 @@ In order to be able to handle jobs user and careServices, the following services
  * **UserRestController**
 	* **Creating a new user**
 		http://localhost:8080/api/users
+
+![alt text](https://github.com/ImenGharsalli/TenderCare-backend/blob/master/demo/get.png)
+
 	* **Updating an existing user**
 		http://localhost:8080/api/users/1
 	* **Returning an existing user**
